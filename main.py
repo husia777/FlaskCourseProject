@@ -34,14 +34,15 @@ def delete(id):
 
 @app.route('/edit/<int:id>', methods=['POST', 'GET'])
 def edit(id):
-    res = request.form.to_dict()
-    update_user = User.query.get(id)
-    update_user.name = res['name']
-    update_user.email = res['email']
-    update_user.phone = res['phone']
-    db.session.add(update_user)
-    db.session.commit()
-    employees = User.query.all()
+    if request.method == 'POST':
+        res = request.form.to_dict()
+        update_user = User.query.get(id)
+        update_user.name = res['name']
+        update_user.email = res['email']
+        update_user.phone = res['phone']
+        db.session.add(update_user)
+        db.session.commit()
+        employees = User.query.all()
     return render_template('index.html', employees=employees)
 
 
